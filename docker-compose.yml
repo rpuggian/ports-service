@@ -1,0 +1,66 @@
+version: '3.8'
+services:
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server
+    volumes:
+      - redis_data:/data
+    networks:
+      - intranet
+
+  server:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - GRPC_PORT=50051
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 100M
+    networks:
+      - intranet
+    depends_on:
+      - redis
+
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    ports:
+      - '8000:8000'
+    environment:
+      - GRPC_SERVER_NAME=server
+      - GRPC_PORT=50051
+      - API_PORT=8000
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 100M
+    networks:
+      - intranet
+      - extranet
+    depends_on:
+      - server
+
+networks:
+  intranet:
+    name: intranet-netwotk
+    internal: true
+  extranet:
+    name: extranet-network
+
+volumes:
+  redis_data:
+    driver: local
+
