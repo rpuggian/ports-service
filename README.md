@@ -5,15 +5,15 @@ This project proposes a solution to stream large files using API Rest and gRPC
 # Introduction
 
 The problem that this service proposes to resolve is the sending large files to a server, in a scenario where there is no
-scontrol over the size of the files that are sent to the server, with service running with limited processing resources.
+control over the size of the files that are sent to the server, with the service running with limited processing resources.
 
 In the proposal approach, the `ports.json` file is read in chunks using HTTP stream, parsed to JSON and streamed to the 
-server using gRPC, and saves the port objects in a redis database
+server using gRPC, and saves each port objects readed from the file in a redis database
 
 
 The project is divided into 3 layers, which generate 3 different images when the build is run, namely:
 * **server**: responsible for exposing a gRPC server and connect with the database.
-* **client-api**: responsible for exposing a rest API to receive the client requests and communicate with the gRPC server.
+* **api**: responsible for exposing a rest API to receive the client requests and communicate with the gRPC server.
 * **redis**: an instance of redis responsible to save ports information.
 
 
@@ -25,7 +25,7 @@ The project is divided into 3 layers, which generate 3 different images when the
 
 * [**Docker**](https://www.docker.com/products/docker-desktop/) (>= 24.0.5) and 
 [**Docker-compose**](https://docs.docker.com/compose/install/) (>= 2.20.3) - run containers
-* [**Go**](https://go.dev/dl/) (>= 1.20) - run tests
+* [**Go**](https://go.dev/dl/) (>= 1.21) - run tests
 * [**golangci-lint**](https://github.com/golangci/golangci-lint) (>= 1.40) - run linter
 
 ### Execution
@@ -56,14 +56,14 @@ To upload a JSON file, use this endpoint:
 > * The file must be in the same format as the `ports.json` file in the `static` folder.
 
 ``` curl
-curl --location --request POST 'http://localhost:8000/port' /
---data '@<file-location>/ports.json'
+curl --location 'http://localhost:8000/ports' --form 'file=@"<file-location>"'
+
 ```
 
 To find a port by ID, use this endpoint:
 
 ``` curl
-curl --location 'http://localhost:8000/port/<port-id>'
+curl --location 'http://localhost:8000/ports/<port-id>'
 ```
 
 ### Tests

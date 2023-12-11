@@ -17,8 +17,8 @@ type Server struct {
 
 func NewMuxRouter(portHandler contracts.PortHandler) *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/port/{id}", portHandler.GetFileByID).Methods(http.MethodGet)
-	r.HandleFunc("/port", portHandler.UploadPortFileHandler).Methods(http.MethodPost)
+	r.HandleFunc("/ports/{id}", portHandler.GetFileByID).Methods(http.MethodGet)
+	r.HandleFunc("/ports", portHandler.UploadPortFileHandler).Methods(http.MethodPost)
 	return r
 }
 
