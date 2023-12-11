@@ -52,7 +52,7 @@ If everything goes well, the API Rest server will run on port `8000`.
 To upload a JSON file, use this endpoint:
 
 > **_NOTES:_**  
-> * Change the file location or add the file as a `binary` in the body before making the request.
+> * Send the Body as form-data using the key 'file' for the file.
 > * The file must be in the same format as the `ports.json` file in the `static` folder.
 
 ``` curl
