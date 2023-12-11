@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option go_package = "github.com/rpuggian/domain-services/domain/proto/domain";
+
+package port;
+
+service PortService {
+  rpc Create(stream Port) returns (CreateResponse){}
+  rpc FindByID(FindByIDRequest) returns (Port){}
+}
+
+message Port {
+  string id = 1;
+  string name = 2;
+  string city = 3;
+  string country = 4;
+  repeated string alias = 5;
+  repeated string regions = 6;
+  repeated double coordinates = 7;
+  string province = 8;
+  string timezone = 9;
+  repeated string unlocs = 10;
+  string code = 11;
+}
+
+message CreateResponse {
+  int32 total = 1;
+}
+
+message FindByIDRequest {
+  string id = 1;
+}
