@@ -188,7 +188,7 @@ func TestPortServiceClient_StreamCreate(t *testing.T) {
 				client: tt.fields.client,
 			}
 
-			got, err := p.StreamCreate(tt.args.ctx, tt.args.ports)
+			got, err := p.StreamCreate(tt.args.ctx)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("StreamCreate() error = %v, wantErr %v", err, tt.wantErr)
 				return
